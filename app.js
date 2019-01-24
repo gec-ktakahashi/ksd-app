@@ -1,5 +1,16 @@
 "use strct";
 
+var createError = require('http-errors');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+
+var indexRouter = require('./routes/index');
+
+var express = express();
+
+express.use('/', indexRouter);
+
 // Electron
 const electron = require("electron");
 const app = electron.app;
