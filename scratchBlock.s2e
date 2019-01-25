@@ -1,8 +1,6 @@
-{ "extensionName": "Extension Example",
+{ "extensionName": "Extension test",
     "extensionPort": 3939,
     "blockSpecs": [
-        [" ", "beep", "playBeep"],
-        [" ", "set beep volume to %n", "setVolume", 5],
-        ["r", "beep volume", "volume"],
+         [" ", "test通信 %n と %n と %n 送る", "test", 5, 60, 90],
     ]
 }
