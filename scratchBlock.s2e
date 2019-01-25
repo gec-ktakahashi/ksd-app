@@ -1,6 +1,18 @@
 { "extensionName": "Extension test",
     "extensionPort": 3939,
     "blockSpecs": [
-         [" ", "test通信 %n と %n と %n 送る", "test", 5, 60, 90],
+        [" ", "test通信 %n と %n と %n 送る", "test", 5, 60, 90],
+        [" ", "take off", "takeoff"],
+		[" ", "land", "land"],
+		[" ", "fly up with distance %n", "up", 20],
+		[" ", "fly down with distance %n", "down", 20],
+		[" ", "fly left with distance %n", "left", 20],
+		[" ", "fly right with distance %n", "right", 20],
+		[" ", "fly forward with distance %n", "forward", 20],
+		[" ", "fly back with distance %n", "back", 20],
+		[" ", "rotate CW with angle %n", "cw", 90],
+		[" ", "rotate CCW with angle %n", "ccw", 90],
+		[" ", "flip with duration %s", "flip", "f"],
+		[" ", "set speed %n", "setspeed", 80],
     ]
 }

@@ -4,10 +4,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Sample</title>
+
+    <!-- BootStrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+    <!-- BootStrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+
 </head>
 
 <body>
-    <p>Hello World</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>kintoneアプリ情報入力</h1>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">フォーム</div>
+                    <div class="card-body">
+                        <label for="domainName">ドメイン名
+                            <span class="label label-danger">※必須項目</span>
+                        </label>
+                        <input type="text" class="form-control id="domainName" autocomplete="off" required></input>
+
+                        <label for="appId">アプリID
+                            <span class="label label-danger">※必須項目</span>
+                        </label>
+                        <input type="number" class="form-control id="appId" autocomplete="off" required></input>
+
+                        <label for="apiToken">APIトークン
+                            <span class="label label-danger">※必須項目</span>
+                        </label> 
+                        <input type="text" class="form-control id="apiToken" autocomplete="off" required></input>
+                    </div>
+
+                    <!-- 検索ボタン -->
+                    <div class="col-md-12 clearfix">
+                        <!-- 検索ボタン -->
+                        <div class="float-right">
+                            <input type="button" id="seachButton" class="btn btn-outline-primary" name="button_type" value="登録"></input>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
