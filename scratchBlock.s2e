@@ -1,7 +1,9 @@
 { "extensionName": "Extension test",
     "extensionPort": 3939,
     "blockSpecs": [
-        [" ", "test通信 %n と %n と %n 送る", "test", 5, 60, 90],
+        [" ", "kintoneデータ登録", "kintoneAddRecord"],
+		[" ", "温度 %n ", "temp", 5],
+		[" ", "高度 %n ", "height", 3],
         [" ", "take off", "takeoff"],
 		[" ", "land", "land"],
 		[" ", "fly up with distance %n", "up", 20],
