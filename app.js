@@ -52,18 +52,20 @@ app.on("ready", () => {
 
 
 /*** scratchデータの受取 **/
-exapp.get('/',(req, response) => {
-
+exapp.get('/test/:id', function(req, response) {
+    
     var pathname = url.parse(req.url).pathname;
-       
+
     var url_params = req.url.split('/');
 
     if (url_params.length < 2)
         return;
 
-    var command = url_params[1];
-	
-	  switch (command){
+    var command = url_params[2];
+
+    var temp;
+    var height;
+	switch (command){
 		
         case 'poll':
             respondToPoll(response);
@@ -172,9 +174,9 @@ exapp.get('/',(req, response) => {
 				if (err) throw err;
 			});			
         break;
-
+        
         case 'temp':
-            var temp = req.params;
+            temp = 5;
             console.log(temp);
 			// var message = new Buffer( 'speed '+ dis );
 			// client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
@@ -183,10 +185,10 @@ exapp.get('/',(req, response) => {
         break;
 
         case 'height':
-            var height = req.params;
+            height = 3;
             console.log(height);
 			// var message = new Buffer( 'speed '+ dis );
-			// client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+			// client.send(message, 0, tempData, function(err, bytes) {
 			// 	if (err) throw err;
 			// });			
         break;
@@ -198,14 +200,11 @@ exapp.get('/',(req, response) => {
             var entry_body = {
                 'app': 350,
                 'record':{
-                    'test_one':{
-                        "value": volume
-                    },
                     'test_two': {
-                        "value": id
+                        "value": temp
                     },
                     'test_three': {
-                        "value": number
+                        "value": height
                     }
                 }
             };
@@ -230,7 +229,7 @@ exapp.get('/',(req, response) => {
             });
         break;
 			
-	  }
+	}
     response.end('Hello Tello.\n');
 
 });
