@@ -21,7 +21,7 @@ var client = dgram.createSocket('udp4');
 const express = require("express");
 const exapp = express();
 exapp.use(express.static(`views`));
-exapp.listen(3939, "127.0.0.1");
+exapp.listen(8002, "127.0.0.1");
 
 const request = require('request');
 
@@ -41,7 +41,7 @@ app.on("ready", () => {
     mainWindow.webContents.openDevTools();
 
     // ローカルホストを画面描画
-    mainWindow.loadURL("http://127.0.0.1:3939");
+    mainWindow.loadURL("http://127.0.0.1:8002");
 
     // イベント：ウィンドウクローズ時
     mainWindow.on("closed", () => {
@@ -52,19 +52,18 @@ app.on("ready", () => {
 
 
 /*** scratchデータの受取 **/
-exapp.get('/test/:id', function(req, response) {
+exapp.get('/telloControl/:vlue', function(req, response) {
     
     var pathname = url.parse(req.url).pathname;
 
     var url_params = req.url.split('/');
 
     if (url_params.length < 2)
-        return;
-
-    var command = url_params[2];
-
-    var temp;
-    var height;
+		return;
+		
+	// リクエストのvalue値の取得
+	var command = url_params[2];
+	
 	switch (command){
 		
         case 'poll':
@@ -176,26 +175,28 @@ exapp.get('/test/:id', function(req, response) {
         break;
         
         case 'temp':
-            temp = 5;
-            console.log(temp);
+			let temp = 5;
 			// var message = new Buffer( 'speed '+ dis );
 			// client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
 			// 	if (err) throw err;
-			// });			
+			// });		
         break;
 
         case 'height':
-            height = 3;
-            console.log(height);
-			// var message = new Buffer( 'speed '+ dis );
-			// client.send(message, 0, tempData, function(err, bytes) {
-			// 	if (err) throw err;
-			// });			
+           	let height = 3;
+			var message = new Buffer(height);
+			client.send(message,"telloControl", 8002, "localhost", function(err, bytes) {
+				if (err) throw err;
+			});			
         break;
         
-        case 'kintoneAddRecord':
-            console.log(temp);
-            console.log(height);
+		case 'kintoneAddRecord':
+			// サーバからメッセージ受信したときの処理
+			client.on('message', function(msg, rinfo) {
+				console.log(msg);
+				client.close();
+			});
+
             /** kintoneへアクセス **/
             var entry_body = {
                 'app': 350,
@@ -226,10 +227,12 @@ exapp.get('/test/:id', function(req, response) {
                 return;
                 }
                 console.log(body);
-            });
+			});
+			
         break;
 			
 	}
+
     response.end('Hello Tello.\n');
 
 });
