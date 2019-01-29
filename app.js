@@ -53,6 +53,17 @@ app.on("ready", () => {
 });
 
 
+
+function sendCommand(buf, ms = 0) {
+	console.log(buf)
+    const message = new Buffer(buf)
+    client.send(message, 0, message.length, PORT, HOST)
+    await wait(ms)
+}
+
+const wait = ms => new Promise(res => setTimeout(res, ms))
+
+
 /*** scratchデータの受取 **/
 router.get('/telloControl/:vlue', async function(req, response) {
     
@@ -181,11 +192,12 @@ router.get('/telloControl/:vlue', async function(req, response) {
 			// 速度
 			var message = new Buffer('speed?');
 			let telloSpeed = "";
-			await send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+			await sendCommand(message, 0, message.length, PORT, HOST, function(err, bytes) {
 				if (err) throw err;
 				telloSpeed = 6;
 			});
 			console.log(spped)
+			process.exit()
 
 			// バッテリー
 			// var message = new Buffer('battery?');
