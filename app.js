@@ -21,6 +21,7 @@ var client = dgram.createSocket('udp4');
 // Express
 const express = require("express");
 const exapp = express();
+var router = express.Router();
 exapp.use(express.static(`views`));
 exapp.listen(8002, "127.0.0.1");
 
@@ -53,7 +54,7 @@ app.on("ready", () => {
 
 
 /*** scratchデータの受取 **/
-exapp.get('/telloControl/:vlue', function(req, response) {
+router.get('/telloControl/:vlue', async function(req, response) {
     
     var pathname = url.parse(req.url).pathname;
 
@@ -180,67 +181,67 @@ exapp.get('/telloControl/:vlue', function(req, response) {
 			// 速度
 			var message = new Buffer('speed?');
 			let telloSpeed = "";
-			client.send(message, 0, message.length, PORT, HOST, async function(err, bytes) {
+			await send(message, 0, message.length, PORT, HOST, function(err, bytes) {
 				if (err) throw err;
-				telloSpeed = await 6;
-
+				telloSpeed = 6;
 			});
+			console.log(spped)
 
 			// バッテリー
-			var message = new Buffer('battery?');
-			let telloBattery = "";
-			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
-				if (err) throw err;
-				telloBattery = 80;
-			});
+			// var message = new Buffer('battery?');
+			// let telloBattery = "";
+			// client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+			// 	if (err) throw err;
+			// 	telloBattery = 80;
+			// });
 
 			// 飛行時間
-			var message = new Buffer('time?');
-			let flyTime = "";
-			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
-				if (err) throw err;
-				flyTime = 60
-			});
+			// var message = new Buffer('time?');
+			// let flyTime = "";
+			// client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+			// 	if (err) throw err;
+			// 	flyTime = 60
+			// });
 			
 			// 高度
-			var message = new Buffer('height?');
-			let flyHeight = "";
-			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
-				if (err) throw err;
-				flyHeight = 5;
-			});
+			// var message = new Buffer('height?');
+			// let flyHeight = "";
+			// client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+			// 	if (err) throw err;
+			// 	flyHeight = 5;
+			// });
 
 			// 気温
-			var message = new Buffer('temp?');
-			let temperature = "";
-			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
-				if (err) throw err;
-				temperature = 12;
-			});
+			// var message = new Buffer('temp?');
+			// let temperature = "";
+			// client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+			// 	if (err) throw err;
+			// 	temperature = 12;
+			// });
 
 			// TOFからの距離
-			var message = new Buffer('tof?');
-			let telloTof = "";
-			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
-				if (err) throw err;
-				telloTof = 50;
-			});
+			// var message = new Buffer('tof?');
+			// let telloTof = "";
+			// client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+			// 	if (err) throw err;
+			// 	telloTof = 50;
+			// });
 
 			// 加速度
-			var message = new Buffer('acceleration?');
-			let telloAcceleration = "";
-			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
-				if (err) throw err;
-				telloAcceleration =  await 50;
-			});
+			// var message = new Buffer('acceleration?');
+			// let telloAcceleration = "";
+			// client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+			// 	if (err) throw err;
+			// 	telloAcceleration = 50;
+			// });
 
-			console.log(telloSpeed)
-			console.log(telloBattery)
-			console.log(flyTime)
-			console.log(flyHeight)
-			console.log(temperature)
-			console.log(telloTof)
-			console.log(telloAcceleration)
+			// console.log(telloSpeed)
+			// console.log(telloBattery)
+			// console.log(flyTime)
+			// console.log(flyHeight)
+			// console.log(temperature)
+			// console.log(telloTof)
+			// console.log(telloAcceleration)
 
             /** kintoneへアクセス **/
             // var entry_body = {
