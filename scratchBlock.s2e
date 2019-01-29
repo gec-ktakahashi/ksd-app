@@ -2,8 +2,6 @@
     "extensionPort": 8002,
     "blockSpecs": [
         [" ", "kintoneデータ登録 %s", "telloControl", "kintoneAddRecord"],
-		[" ", "温度 %s", "telloControl", "temp"],
-		[" ", "高度 %s", "telloControl", "height"],
         [" ", "take off", "telloControl"],
 		[" ", "land", "telloControl"],
 		[" ", "fly up with distance %n", "telloControl", 20],

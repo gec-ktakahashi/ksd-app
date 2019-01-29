@@ -6,6 +6,7 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow = null;
 
+
 var http = require('http');
 var fs = require('fs');
 var url = require('url');
@@ -172,35 +173,99 @@ exapp.get('/telloControl/:vlue', function(req, response) {
 			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
 				if (err) throw err;
 			});			
-        break;
-        
-        case 'temp':
-			let temp = 5;
-			// var message = new Buffer( 'speed '+ dis );
-			// client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
-			// 	if (err) throw err;
-			// });		
-        break;
-
-        case 'height':
-           	let height = 3;
-			var message = new Buffer(height);
-			client.send(message, 0, message.length, 8002, "localhost", function(err, bytes) {
-				if (err) throw err;
-			});			
-        break;
-        
+		break;
+		
+        /**** kintoneアクセス ****/
 		case 'kintoneAddRecord':
+			// 速度
+			var message = new Buffer('speed?');
+			let telloSpeed = "";
+			client.send(message, 0, message.length, PORT, HOST, async function(err, bytes) {
+				if (err) throw err;
+				telloSpeed = await 6;
+
+			});
+
+			// バッテリー
+			var message = new Buffer('battery?');
+			let telloBattery = "";
+			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+				if (err) throw err;
+				telloBattery = 80;
+			});
+
+			// 飛行時間
+			var message = new Buffer('time?');
+			let flyTime = "";
+			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+				if (err) throw err;
+				flyTime = 60
+			});
+			
+			// 高度
+			var message = new Buffer('height?');
+			let flyHeight = "";
+			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+				if (err) throw err;
+				flyHeight = 5;
+			});
+
+			// 気温
+			var message = new Buffer('temp?');
+			let temperature = "";
+			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+				if (err) throw err;
+				temperature = 12;
+			});
+
+			// TOFからの距離
+			var message = new Buffer('tof?');
+			let telloTof = "";
+			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+				if (err) throw err;
+				telloTof = 50;
+			});
+
+			// 加速度
+			var message = new Buffer('acceleration?');
+			let telloAcceleration = "";
+			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+				if (err) throw err;
+				telloAcceleration =  await 50;
+			});
+
+			console.log(telloSpeed)
+			console.log(telloBattery)
+			console.log(flyTime)
+			console.log(flyHeight)
+			console.log(temperature)
+			console.log(telloTof)
+			console.log(telloAcceleration)
 
             /** kintoneへアクセス **/
             // var entry_body = {
             //     'app': 350,
             //     'record':{
-            //         'test_two': {
-            //             "value": temp
+            //         'speed': {
+            //             "value": telloSpeed
             //         },
-            //         'test_three': {
-            //             "value": height
+            //         'battery': {
+            //             "value": telloBattery
+            //         },
+            //         'fly_time': {
+            //             "value": flyTime
+            //         },
+            //         'height': {
+            //             "value": flyHeight
+            //         },
+            //         'temperature': {
+            //             "value": temperature
+            //         },
+            //         'tof': {
+            //             "value": telloTof
+            //         },
+            //         'acceleration': {
+            //             "value": telloAcceleration
             //         }
             //     }
             // };
@@ -227,13 +292,6 @@ exapp.get('/telloControl/:vlue', function(req, response) {
         break;
 			
 	}
-
-	// サーバからメッセージ受信したときの処理
-	client.on('message', function(msg, rinfo) {
-		console.log(msg);
-		client.close();
-	});
-
     response.end('Hello Tello.\n');
 
 });
