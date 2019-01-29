@@ -185,53 +185,54 @@ exapp.get('/telloControl/:vlue', function(req, response) {
         case 'height':
            	let height = 3;
 			var message = new Buffer(height);
-			client.send(message,"telloControl", 8002, "localhost", function(err, bytes) {
+			client.send(message, 0, message.length, 8002, "localhost", function(err, bytes) {
 				if (err) throw err;
 			});			
         break;
         
 		case 'kintoneAddRecord':
-			// サーバからメッセージ受信したときの処理
-			client.on('message', function(msg, rinfo) {
-				console.log(msg);
-				client.close();
-			});
 
             /** kintoneへアクセス **/
-            var entry_body = {
-                'app': 350,
-                'record':{
-                    'test_two': {
-                        "value": temp
-                    },
-                    'test_three': {
-                        "value": height
-                    }
-                }
-            };
+            // var entry_body = {
+            //     'app': 350,
+            //     'record':{
+            //         'test_two': {
+            //             "value": temp
+            //         },
+            //         'test_three': {
+            //             "value": height
+            //         }
+            //     }
+            // };
 
-            let params = {
-                url:'https://ge-creative.cybozu.com/k/v1/record.json',
-                method: 'POST',
-                json: true,
-                headers: {
-                    'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-                    'Content-Type': 'application/json',
-                },
-                body: entry_body
-            };
+            // let params = {
+            //     url:'https://ge-creative.cybozu.com/k/v1/record.json',
+            //     method: 'POST',
+            //     json: true,
+            //     headers: {
+            //         'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: entry_body
+            // };
 
-            request(params, function(err, res, body) {
-                if (err) {
-                console.log(err);
-                return;
-                }
-                console.log(body);
-			});
+            // request(params, function(err, res, body) {
+            //     if (err) {
+            //     console.log(err);
+            //     return;
+            //     }
+            //     console.log(body);
+			// });
 			
         break;
 			
 	}
+
+	// サーバからメッセージ受信したときの処理
+	client.on('message', function(msg, rinfo) {
+		console.log(msg);
+		client.close();
+	});
 
     response.end('Hello Tello.\n');
 
