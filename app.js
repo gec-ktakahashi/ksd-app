@@ -10,25 +10,14 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow = null;
 
+const http = require('http');
+const request = require('request');
+const fs = require('fs');
+const url = require('url');
 
-var http = require('http');
-var fs = require('fs');
-var url = require('url');
+const dgram = require('dgram');
+const client = dgram.createSocket('udp4');
 
-// Telloドローン IP,PORT
-var PORT = 8889;
-var HOST = '192.168.10.1';
-
-var dgram = require('dgram');
-var client = dgram.createSocket('udp4');
-
-// Express
-// const express = require("express");
-// const exapp = express();
-// exapp.use(express.static(`views`));
-// exapp.listen(8001, "127.0.0.1");
-
-// const request = require('request');
 
 
 // イベント：起動時
@@ -238,54 +227,52 @@ app.on("ready", () => {
 
 });
 
-function respondToPoll(response){
+function respondToPoll(response) {
+	var noDataReceived = false;
 
-    var noDataReceived = false;
-
-    var resp = "";
-    var i;
-    for (i = 0; i < dataToTrack_keys.length; i++){
-        resp += dataToTrack_keys[i] + " ";
-        resp += (i);
-		resp += ",";
-    }
+	var resp = "";
+	var i;
+	for (i = 0; i < dataToTrack_keys.length; i++) {
+		resp += dataToTrack_keys[i] + " ";
+		resp += (i + 10);
+		resp += "\n";
+	}
 	response.end(resp);
-	console.log(resp)
+
+	console.log("-------------------------------------------------------------");
+	console.log(new Date());
+	console.log(resp);
 }
 
-function TakeoffRequest(){
-	
+function TakeoffRequest() {
 	var message = new Buffer('command');
 
-	client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 		if (err) throw err;
 	});
 	var message = new Buffer('takeoff');
-	client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 		if (err) throw err;
 
 	});
 }
 
-function LandRequest(){
-
+function LandRequest() {
 	var message = new Buffer('land');
 
-	client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 		if (err) throw err;
 	});
 }
-
-
 
 
 // イベント：全てのウィンドウが閉じた場合
 app.on("window-all-closed", () => {
-    // macOS対応
-    if (process.platform != "darwin") {
-        // アプリ終了
-        app.quit();
-    }
+	// macOS対応
+	if (process.platform != "darwin") {
+		// アプリ終了
+		app.quit();
+	}
 });
 
 module.exports = app;
