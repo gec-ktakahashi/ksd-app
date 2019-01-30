@@ -1,5 +1,5 @@
 { "extensionName": "Extension test",
-    "extensionPort": 8002,
+    "extensionPort": 8001,
     "blockSpecs": [
         [" ", "kintoneデータ登録 %s", "telloControl", "kintoneAddRecord"],
         [" ", "take off", "telloControl"],

@@ -1,5 +1,9 @@
 "use strct";
 
+
+var dataToTrack_keys = ["battery", "x", "y", "z", "speed"];
+var lastDataReceived = null;
+
 // Electron
 const electron = require("electron");
 const app = electron.app;
@@ -21,9 +25,8 @@ var client = dgram.createSocket('udp4');
 // Express
 const express = require("express");
 const exapp = express();
-var router = express.Router();
 exapp.use(express.static(`views`));
-exapp.listen(8002, "127.0.0.1");
+exapp.listen(8001, "127.0.0.1");
 
 const request = require('request');
 
@@ -43,7 +46,7 @@ app.on("ready", () => {
     mainWindow.webContents.openDevTools();
 
     // ローカルホストを画面描画
-    mainWindow.loadURL("http://127.0.0.1:8002");
+    mainWindow.loadURL("http://127.0.0.1:8001");
 
     // イベント：ウィンドウクローズ時
     mainWindow.on("closed", () => {
@@ -54,19 +57,20 @@ app.on("ready", () => {
 
 
 
-function sendCommand(buf, ms = 0) {
-	console.log(buf)
-    const message = new Buffer(buf)
-    client.send(message, 0, message.length, PORT, HOST)
-    await wait(ms)
-}
+// function sendCommand(buf, ms = 0) {
+// 	console.log(buf)
+// 	const message = new Buffer(buf)
+// 	console.log(message)
+//     client.send(message, 0, message.length, PORT, HOST)
+//     wait(ms)
+// }
 
-const wait = ms => new Promise(res => setTimeout(res, ms))
+// const wait = ms => new Promise(res => setTimeout(res, ms))
 
 
 /*** scratchデータの受取 **/
-router.get('/telloControl/:vlue', async function(req, response) {
-    
+exapp.get('/telloControl/:vlue', function(req, response) {
+// http.createServer( function (req, response) {
     var pathname = url.parse(req.url).pathname;
 
     var url_params = req.url.split('/');
@@ -76,7 +80,7 @@ router.get('/telloControl/:vlue', async function(req, response) {
 		
 	// リクエストのvalue値の取得
 	var command = url_params[2];
-	
+	console.log(command)
 	switch (command){
 		
         case 'poll':
@@ -189,23 +193,31 @@ router.get('/telloControl/:vlue', async function(req, response) {
 		
         /**** kintoneアクセス ****/
 		case 'kintoneAddRecord':
-			// 速度
-			var message = new Buffer('speed?');
-			let telloSpeed = "";
-			await sendCommand(message, 0, message.length, PORT, HOST, function(err, bytes) {
-				if (err) throw err;
-				telloSpeed = 6;
-			});
-			console.log(spped)
-			process.exit()
+			console.log("success")
 
-			// バッテリー
-			// var message = new Buffer('battery?');
-			// let telloBattery = "";
+			var message = new Buffer('command');
+			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+				if (err) throw err;
+			});
+
+			// 速度
+			// var message = new Buffer('speed?');
+			// let telloSpeed = "";
 			// client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
 			// 	if (err) throw err;
-			// 	telloBattery = 80;
+			// 	telloSpeed = bytes;
 			// });
+			// console.log(telloSpeed)
+
+			// バッテリー
+			var message = new Buffer('battery?');
+			console.log(message)
+			let telloBattery = "";
+			client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+				if (err) throw err;
+				telloBattery = bytes; 
+			});
+			console.log(telloBattery)
 
 			// 飛行時間
 			// var message = new Buffer('time?');
