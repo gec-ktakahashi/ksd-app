@@ -6,6 +6,7 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow = null;
 
+// http
 const http = require('http');
 const kintoneRequest = require('request');
 const fs = require('fs');
@@ -14,6 +15,11 @@ const url = require('url');
 const dgram = require('dgram');
 const client = dgram.createSocket('udp4');
 
+
+// Express
+const express = require("express");
+const exapp = express();
+var router = express.Router();
 
 
 // Telloドローン IP,PORT
@@ -32,6 +38,7 @@ app.on("ready", () => {
 		height: 300,
 		useContentSize: true
 	});
+
 	// 使用するhtmlファイルを指定する
 	mainWindow.loadURL(`file://${__dirname}/views/index.html`);
 
@@ -72,10 +79,12 @@ app.on("ready", () => {
 				LandRequest();
 				break;
 
+			/***** kintone登録ブロック *****/
 			case 'kintone':
-				console.log("success")
-
+				
+				// respondToPoll関数の実行
 				var respPoll = respondToPoll(response);
+
 				/**** レスポンスデータの受け取り ****/
 				// 速度
 				const telloSpeed = respPoll.respData[0]
@@ -93,7 +102,7 @@ app.on("ready", () => {
 				const telloAcceleration = respPoll.respData[6]
 
 
-				/** kintoneへアクセス **/
+				/*** kintoneへアクセス ***/
 				var entry_body = {
 				    'app': 350,
 				    'record':{
@@ -136,7 +145,8 @@ app.on("ready", () => {
 				    if (err) {
 				    console.log(err);
 				    return;
-				    }
+					}
+					console.log("success")
 				    console.log(body);
 				});
 
@@ -246,7 +256,7 @@ app.on("ready", () => {
 	console.log('---------------------------------------');
 });
 
-
+/**** Telloドローンからのresponseデータ ****/
 function respondToPoll(response) {
 	var noDataReceived = false;
 
@@ -254,17 +264,15 @@ function respondToPoll(response) {
 	var i;
 	for (i = 0; i < dataToTrack_keys.length; i++) {
 		//resp += dataToTrack_keys[i] + " ";
-		resp.push(i + 10);
+		resp.push(i + 20);
 		//resp += "\n";
 	}
 	// response.end(resp);
 	return{respData:resp};
-
-	// console.log("-------------------------------------------------------------");
-	// console.log(new Date());
-	// console.log(resp);
 }
 
+
+/***** 離陸 *****/
 function TakeoffRequest() {
 	var message = new Buffer('command');
 
@@ -278,6 +286,8 @@ function TakeoffRequest() {
 	});
 }
 
+
+/***** 着陸 *****/
 function LandRequest() {
 	var message = new Buffer('land');
 

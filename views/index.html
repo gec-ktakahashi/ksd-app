@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Sample</title>
+    <title>アプリ情報入力</title>
 
     <!-- BootStrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
     <!-- BootStrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -22,8 +22,8 @@
             </div>
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">フォーム</div>
                     <div class="card-body">
+                        <div class="card-header">フォーム</div>
                         <label for="domainName">ドメイン名
                             <span class="label label-danger">※必須項目</span>
                         </label>
@@ -38,20 +38,28 @@
                             <span class="label label-danger">※必須項目</span>
                         </label> 
                         <input type="text" class="form-control id="apiToken" autocomplete="off" required></input>
-                    </div>
+                        <br>
 
-                    <!-- 検索ボタン -->
-                    <div class="col-md-12 clearfix">
                         <!-- 検索ボタン -->
-                        <div class="float-right">
-                            <input type="button" id="seachButton" class="btn btn-outline-primary" name="button_type" value="登録"></input>
+                        <div class="col-md-12 clearfix">
+                            <!-- 検索ボタン -->
+                            <div class="float-right">
+                                <input type="button" id="entryButton" class="btn btn-outline-primary" name="button_type" value="登録" onclick="entry();"></input>
+                            </div>
                         </div>
                     </div>
-                    <br>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
+<script>
+    function entry() {
+        const body = document.getElementsById('domainName').value
+        console.log(body)
+    }
+
+</script>
 
 </html>

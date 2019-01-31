@@ -83,4 +83,5 @@ typings/
 .dynamodb/
 
 .dist
-.scratchBlock/
+.scratch
+/vscode
