@@ -26,8 +26,8 @@ var router = express.Router();
 let PORT = 8889;
 let HOST = '192.168.10.1';
 
-let dataToTrack_keys = ["speed", "battery", "fly_time", "height", "temperature", "tof", "acceleration"];
-let lastDataReceived = null;
+// let dataToTrack_keys = ["speed", "battery", "fly_time", "height", "temperature", "tof", "acceleration"];
+// let lastDataReceived = null;
 
 
 // イベント：起動時
