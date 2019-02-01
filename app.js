@@ -11,9 +11,10 @@ const http = require('http');
 const kintoneRequest = require('request');
 const fs = require('fs');
 const url = require('url');
-
 const dgram = require('dgram');
 const client = dgram.createSocket('udp4');
+const async = require('asyncawait/async');
+const await = require('asyncawait/await');
 
 
 // Express
@@ -68,7 +69,7 @@ app.on("ready", () => {
 			case 'poll':
 				// respondToPoll(response);
 				break;
-			
+
 			case 'battery':
 
 				// respondToPoll関数の実行
@@ -103,7 +104,7 @@ app.on("ready", () => {
 
 				});
 
-				client.on('message', (msg,info) => {
+				client.on('message', (msg, info) => {
 					var tello_battery = msg.toString();
 					console.log(tello_battery)
 					if (tello_battery != "ok") {
@@ -150,7 +151,7 @@ app.on("ready", () => {
 							}
 						});
 					}
-					
+
 				});
 				break;
 
@@ -269,7 +270,7 @@ function respondToPoll(response) {
 
 	});
 
-	client.on('message', (msg,info) => {
+	client.on('message', (msg, info) => {
 		var tello_battery = msg.toString();
 		resp.push(tello_battery)
 		console.log(resp)
