@@ -2,6 +2,7 @@
  	"extensionPort": 8001,
  	"blockSpecs": [
 		[" ", "kintoneにデータ送信", "kintone"],
+		[" ", "battery", "battery"],
 		[" ", "take off", "takeoff"],
 		[" ", "land", "land"],
 		[" ", "fly up with distance %n", "up", 20],

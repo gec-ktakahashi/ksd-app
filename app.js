@@ -66,7 +66,16 @@ app.on("ready", () => {
 		switch (command) {
 
 			case 'poll':
-				respondToPoll(response);
+				// respondToPoll(response);
+				break;
+			
+			case 'battery':
+
+				// respondToPoll関数の実行
+				var respPoll = respondToPoll(response);
+				// バッテリー
+				const telloBattery = respPoll.respData[1]
+				console.log(telloBattery)
 				break;
 
 			case 'takeoff':
@@ -83,75 +92,66 @@ app.on("ready", () => {
 			case 'kintone':
 				console.log('kintone')
 
-				// respondToPoll関数の実行
-				var respPoll = respondToPoll(response);
-
-				/**** レスポンスデータの受け取り ****/
-				// 速度
-				const telloSpeed = respPoll.respData[0]
-				// バッテリー
-				const telloBattery = respPoll.respData[1]
-				// 飛行時間
-				const flyTime = respPoll.respData[2]
-				// 高度
-				const flyHeight = respPoll.respData[3]
-				// 気温
-				const temperature = respPoll.respData[4]
-				// TOFからの距離
-				const telloTof = respPoll.respData[5]
-				// 加速度
-				const telloAcceleration = respPoll.respData[6]
-
-
-				/*** kintoneへアクセス ***/
-				var entry_body = {
-					'app': 350,
-					'record': {
-						'speed': {
-							"value": telloSpeed
-						},
-						'battery': {
-							"value": telloBattery
-						},
-						'fly_time': {
-							"value": flyTime
-						},
-						'height': {
-							"value": flyHeight
-						},
-						'temperature': {
-							"value": temperature
-						},
-						'tof': {
-							"value": telloTof
-						},
-						'acceleration': {
-							"value": telloAcceleration
-						}
-					}
-				};
-
-				let params = {
-					url: 'https://ge-creative.cybozu.com/k/v1/record.json',
-					method: 'POST',
-					json: true,
-					headers: {
-						'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-						'Content-Type': 'application/json',
-					},
-					body: entry_body
-				};
-
-				console.log("kintone send")
-				kintoneRequest(params, function (err, res, body) {
-					if (err) {
-						console.log(err);
-						return;
-					}
-					console.log("success")
-					console.log(body);
+				var message = new Buffer('command');
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
 				});
 
+				var message = new Buffer('battery?');
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+
+				});
+
+				client.on('message', (msg,info) => {
+					var tello_battery = msg.toString();
+					console.log(tello_battery)
+					if (tello_battery != "ok") {
+						/*** kintoneへアクセス ***/
+						var entry_body = {
+							'app': 350,
+							'record': {
+								'battery': {
+									"value": tello_battery
+								}
+								// },
+								// 'fly_time': {
+								// 	"value": flyTime
+								// },
+								// 'height': {
+								// 	"value": flyHeight
+								// },
+								// 'temperature': {
+								// 	"value": temperature
+								// },
+								// 'tof': {
+								// 	"value": telloTof
+								// },
+								// 'acceleration': {
+								// 	"value": telloAcceleration
+								// }
+							}
+						};
+
+						let params = {
+							url: 'https://ge-creative.cybozu.com/k/v1/record.json',
+							method: 'POST',
+							json: true,
+							headers: {
+								'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
+								'Content-Type': 'application/json',
+							},
+							body: entry_body
+						};
+						kintoneRequest(params, function (err, res, body) {
+							if (err) {
+								console.log(err);
+								return;
+							}
+						});
+					}
+					
+				});
 				break;
 
 			case 'up':
@@ -261,15 +261,19 @@ app.on("ready", () => {
 /**** Telloドローンからのresponseデータ ****/
 function respondToPoll(response) {
 	var noDataReceived = false;
-
 	var resp = [];
-	var i;
-	for (i = 0; i < dataToTrack_keys.length; i++) {
-		//resp += dataToTrack_keys[i] + " ";
-		resp.push(i + 20);
-		//resp += "\n";
-	}
-	// response.end(resp);
+
+	var message = new Buffer('battery?');
+	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+		if (err) throw err;
+
+	});
+
+	client.on('message', (msg,info) => {
+		var tello_battery = msg.toString();
+		resp.push(tello_battery)
+		console.log(resp)
+	});
 	return {
 		respData: resp
 	};
