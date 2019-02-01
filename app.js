@@ -14,22 +14,11 @@ const url = require('url');
 
 const dgram = require('dgram');
 const client = dgram.createSocket('udp4');
-// const async = require('asyncawait/async');
-// const await = require('asyncawait/await');
-
-
-// Express
-const express = require("express");
-const exapp = express();
-var router = express.Router();
 
 
 // Telloドローン IP,PORT
 let PORT = 8889;
 let HOST = '192.168.10.1';
-
-// let dataToTrack_keys = ["speed", "battery", "fly_time", "height", "temperature", "tof", "acceleration"];
-// let lastDataReceived = null;
 
 
 // イベント：起動時
@@ -67,18 +56,6 @@ app.on("ready", () => {
 
 		switch (command) {
 
-			case 'poll':
-				// respondToPoll(response);
-				break;
-
-
-			case 'command':
-				var command = new Buffer('command');
-				client.send(command, 0, command.length, PORT, HOST, function (err, bytes) {
-					if (err) throw err;
-				});
-				break;
-
 			/**** 離陸 ****/
 			case 'takeoff':
 				console.log('takeoff');
@@ -87,316 +64,85 @@ app.on("ready", () => {
 
 
 			/***** 速度 *****/
-			case 'speed':
-				console.log('speed')
+			case 'kintone':
+				console.log('kintone')
 
+				/** 速度 **/
 				var message_speed = new Buffer('speed?');
 				client.send(message_speed, 0, message_speed.length, PORT, HOST, function (err, bytes) {
 					if (err) throw err;
-
 				});
-				var telloSpeed = "";
-				client.on('message', (msg, info) => {
-					console.log(msg)
-					console.log(info)
-					telloSpeed = msg.toString();
-					console.log(telloSpeed)
 
-					if (telloSpeed != "ok") {
-						/*** kintoneへアクセス ***/
-						var entry_body = {
-							'app': 350,
-							'record': {
-								'speed': {
-									"value": telloSpeed
-								}
-							}
-						};
-
-						let params = {
-							url: 'https://ge-creative.cybozu.com/k/v1/record.json',
-							method: 'POST',
-							json: true,
-							headers: {
-								'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-								'Content-Type': 'application/json',
-							},
-							body: entry_body
-						};
-						kintoneRequest(params, function (err, res, body) {
-							if (err) {
-								console.log(err);
-								return;
-							}
-							console.log(body);
-						});
-					}
-				});
-				break;
-
-
-			/**** バッテリー残量 ****/
-			case 'battery':
-				console.log("battery")
-
+				/** バッテリー **/
 				var message_battery = new Buffer('battery?');
 				client.send(message_battery, 0, message_battery.length, PORT, HOST, function (err, bytes) {
 					if (err) throw err;
 				});
-				var tello_battery = "";
-				client.on('message', (msg, info) => {
-					tello_battery = msg.toString();
 
-					if (tello_battery != "ok") {
-						/*** kintoneへアクセス ***/
-						var entry_body = {
-							'app': 350,
-							'record': {
-								'battery': {
-									"value": tello_battery
-								}
-							}
-						};
-
-						let params = {
-							url: 'https://ge-creative.cybozu.com/k/v1/record.json',
-							method: 'POST',
-							json: true,
-							headers: {
-								'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-								'Content-Type': 'application/json',
-							},
-							body: entry_body
-						};
-						kintoneRequest(params, function (err, res, body) {
-							if (err) {
-								console.log(err);
-								return;
-							}
-							console.log(body);
-						});
-					}
-				});
-				break;
-
-
-			/**** 飛行時間 ****/
-			case 'flyTime':
-				console.log("flyTime")
-
-				var message = new Buffer('time?');
-				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+				/** 飛行時間 **/
+				var message_time = new Buffer('time?');
+				client.send(message_time, 0, message_time.length, PORT, HOST, function (err, bytes) {
 					if (err) throw err;
 				});
-				var tello_time = "";
-				client.on('message', (msg, info) => {
-					tello_time = msg.toString();
 
-					if (tello_time != "ok") {
-						/*** kintoneへアクセス ***/
-						var entry_body = {
-							'app': 350,
-							'record': {
-								'fly_time': {
-									"value": tello_time
-								}
-							}
-						};
-
-						let params = {
-							url: 'https://ge-creative.cybozu.com/k/v1/record.json',
-							method: 'POST',
-							json: true,
-							headers: {
-								'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-								'Content-Type': 'application/json',
-							},
-							body: entry_body
-						};
-						kintoneRequest(params, function (err, res, body) {
-							if (err) {
-								console.log(err);
-								return;
-							}
-						});
-					}
-				});
-				break;
-
-
-			/**** 高度 ****/
-			case 'height':
-				console.log("height")
-
+				/** 高度 **/
 				var message = new Buffer('height?');
 				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 					if (err) throw err;
 				});
-				var tello_height = "";
-				client.on('message', (msg, info) => {
-					tello_height = msg.toString();
 
-					if (tello_height != "ok") {
-						/*** kintoneへアクセス ***/
-						var entry_body = {
-							'app': 350,
-							'record': {
-								'height': {
-									"value": tello_height
-								}
-							}
-						};
-
-						let params = {
-							url: 'https://ge-creative.cybozu.com/k/v1/record.json',
-							method: 'POST',
-							json: true,
-							headers: {
-								'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-								'Content-Type': 'application/json',
-							},
-							body: entry_body
-						};
-						kintoneRequest(params, function (err, res, body) {
-							if (err) {
-								console.log(err);
-								return;
-							}
-						});
-					}
-				});
-				break;
-
-
-
-			/**** 気温 ****/
-			case 'temp':
-				console.log("temp")
-
+				/** 気温 **/
 				var message = new Buffer('temp?');
 				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 					if (err) throw err;
 				});
-				var temperture = "";
-				client.on('message', (msg, info) => {
-					temperture = msg.toString();
 
-					if (temperture != "ok") {
-						/*** kintoneへアクセス ***/
-						var entry_body = {
-							'app': 350,
-							'record': {
-								'temperature': {
-									"value": temperture
-								}
-							}
-						};
-
-						let params = {
-							url: 'https://ge-creative.cybozu.com/k/v1/record.json',
-							method: 'POST',
-							json: true,
-							headers: {
-								'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-								'Content-Type': 'application/json',
-							},
-							body: entry_body
-						};
-						kintoneRequest(params, function (err, res, body) {
-							if (err) {
-								console.log(err);
-								return;
-							}
-						});
-					}
-				});
-				break;
-
-
-			/**** 加速度 ****/
-			case 'acceleration':
-				console.log("acceleration")
-
+				/** 加速度 **/
 				var message = new Buffer('acceleration?');
 				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 					if (err) throw err;
 				});
-				var tello_acceleration = "";
-				client.on('message', (msg, info) => {
-					tello_acceleration = msg.toString();
 
-					if (tello_acceleration != "ok") {
-						/*** kintoneへアクセス ***/
-						var entry_body = {
-							'app': 350,
-							'record': {
-								'acceleration': {
-									"value": tello_acceleration
-								}
-							}
-						};
-
-						let params = {
-							url: 'https://ge-creative.cybozu.com/k/v1/record.json',
-							method: 'POST',
-							json: true,
-							headers: {
-								'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-								'Content-Type': 'application/json',
-							},
-							body: entry_body
-						};
-						kintoneRequest(params, function (err, res, body) {
-							if (err) {
-								console.log(err);
-								return;
-							}
-						});
-					}
-				});
-				break;
-
-
-			/**** TOFからの距離 ****/
-			case 'tof':
-				console.log("tof")
-
+				/** TOFからの距離 **/
 				var message = new Buffer('tof?');
 				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 					if (err) throw err;
 				});
-				var tof= "";
+
+				var telloSpeed = "";
 				client.on('message', (msg, info) => {
-					tof = msg.toString();
+					telloSpeed = msg.toString();
+					console.log(telloSpeed)
 
-					if (tof != "ok") {
-						/*** kintoneへアクセス ***/
-						var entry_body = {
-							'app': 350,
-							'record': {
-								'tof': {
-									"value": tof
-								}
-							}
-						};
+					// if (telloSpeed != "ok") {
+					// 	/*** kintoneへアクセス ***/
+					// 	var entry_body = {
+					// 		'app': 350,
+					// 		'record': {
+					// 			'speed': {
+					// 				"value": telloSpeed
+					// 			}
+					// 		}
+					// 	};
 
-						let params = {
-							url: 'https://ge-creative.cybozu.com/k/v1/record.json',
-							method: 'POST',
-							json: true,
-							headers: {
-								'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-								'Content-Type': 'application/json',
-							},
-							body: entry_body
-						};
-						kintoneRequest(params, function (err, res, body) {
-							if (err) {
-								console.log(err);
-								return;
-							}
-						});
-					}
+					// 	let params = {
+					// 		url: 'https://ge-creative.cybozu.com/k/v1/record.json',
+					// 		method: 'POST',
+					// 		json: true,
+					// 		headers: {
+					// 			'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
+					// 			'Content-Type': 'application/json',
+					// 		},
+					// 		body: entry_body
+					// 	};
+					// 	kintoneRequest(params, function (err, res, body) {
+					// 		if (err) {
+					// 			console.log(err);
+					// 			return;
+					// 		}
+					// 		console.log(body);
+					// 	});
+					// }
 				});
 				break;
 
@@ -509,31 +255,6 @@ app.on("ready", () => {
 	console.log('Tello Scratch Ext running at http://127.0.0.1:8001/');
 	console.log('---------------------------------------');
 });
-
-/**** Telloドローンからのresponseデータ ****/
-function respondToPoll(response) {
-
-	var message = new Buffer('command');
-
-	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-		if (err) throw err;
-	});
-
-
-	var noDataReceived = false;
-	var resp = [];
-
-	var message = new Buffer('battery?');
-	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-		if (err) throw err;
-
-	});
-	client.on('message', (msg, info) => {
-		var tello_battery = msg.toString();
-		resp.push(tello_battery)
-		console.log(resp)
-	});
-}
 
 
 /***** 離陸 *****/
