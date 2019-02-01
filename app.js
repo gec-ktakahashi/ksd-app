@@ -74,9 +74,7 @@ app.on("ready", () => {
 
 				// respondToPoll関数の実行
 				var respPoll = respondToPoll(response);
-				// バッテリー
-				const telloBattery = respPoll.respData[1]
-				console.log(telloBattery)
+				console.log(respPoll)
 				break;
 
 			case 'takeoff':
@@ -261,6 +259,14 @@ app.on("ready", () => {
 
 /**** Telloドローンからのresponseデータ ****/
 function respondToPoll(response) {
+
+	var message = new Buffer('command');
+
+	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+		if (err) throw err;
+	});
+
+
 	var noDataReceived = false;
 	var resp = [];
 
@@ -269,15 +275,28 @@ function respondToPoll(response) {
 		if (err) throw err;
 
 	});
-
 	client.on('message', (msg, info) => {
 		var tello_battery = msg.toString();
 		resp.push(tello_battery)
 		console.log(resp)
 	});
-	return {
-		respData: resp
-	};
+
+	var message = new Buffer('speed?');
+	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+		if (err) throw err;
+
+	});
+	client.on('message', (msg, info) => {
+		console.log(msg.toString());
+		// resp.push(tello_battery)
+		// console.log(resp)
+	});
+
+
+
+	// return {
+	// 	respData: resp
+	// };
 }
 
 
