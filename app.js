@@ -79,9 +79,10 @@ app.on("ready", () => {
 				LandRequest();
 				break;
 
-			/***** kintone登録ブロック *****/
+				/***** kintone登録ブロック *****/
 			case 'kintone':
-				
+				console.log('kintone')
+
 				// respondToPoll関数の実行
 				var respPoll = respondToPoll(response);
 
@@ -104,50 +105,51 @@ app.on("ready", () => {
 
 				/*** kintoneへアクセス ***/
 				var entry_body = {
-				    'app': 350,
-				    'record':{
-				        'speed': {
-				            "value": telloSpeed
-				        },
-				        'battery': {
-				            "value": telloBattery
-				        },
-				        'fly_time': {
-				            "value": flyTime
-				        },
-				        'height': {
-				            "value": flyHeight
-				        },
-				        'temperature': {
-				            "value": temperature
-				        },
-				        'tof': {
-				            "value": telloTof
-				        },
-				        'acceleration': {
-				            "value": telloAcceleration
-				        }
-				    }
+					'app': 350,
+					'record': {
+						'speed': {
+							"value": telloSpeed
+						},
+						'battery': {
+							"value": telloBattery
+						},
+						'fly_time': {
+							"value": flyTime
+						},
+						'height': {
+							"value": flyHeight
+						},
+						'temperature': {
+							"value": temperature
+						},
+						'tof': {
+							"value": telloTof
+						},
+						'acceleration': {
+							"value": telloAcceleration
+						}
+					}
 				};
 
 				let params = {
-				    url:'https://ge-creative.cybozu.com/k/v1/record.json',
-				    method: 'POST',
-				    json: true,
-				    headers: {
-				        'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-				        'Content-Type': 'application/json',
-				    },
-				    body: entry_body
+					url: 'https://ge-creative.cybozu.com/k/v1/record.json',
+					method: 'POST',
+					json: true,
+					headers: {
+						'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
+						'Content-Type': 'application/json',
+					},
+					body: entry_body
 				};
 
-				kintoneRequest(params, function(err, res, body) {
-				    if (err) {
-				    console.log(err);
-				    return;
+				console.log("kintone send")
+				kintoneRequest(params, function (err, res, body) {
+					if (err) {
+						console.log(err);
+						return;
 					}
 					console.log("success")
-				    console.log(body);
+					console.log(body);
 				});
 
 				break;
@@ -268,7 +270,9 @@ function respondToPoll(response) {
 		//resp += "\n";
 	}
 	// response.end(resp);
-	return{respData:resp};
+	return {
+		respData: resp
+	};
 }
 
 
