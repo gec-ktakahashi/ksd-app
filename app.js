@@ -56,6 +56,16 @@ app.on("ready", () => {
 
 		switch (command) {
 
+
+			case 'command':
+				var message = new Buffer('command');
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+
+				break;
+
+
 			/**** 離陸 ****/
 			case 'takeoff':
 				console.log('takeoff');
@@ -70,7 +80,7 @@ app.on("ready", () => {
 				break;
 
 
-			/***** 速度 *****/
+			/**** kintoneデータ登録 ****/
 			case 'kintone':
 				console.log('kintone')
 
@@ -98,7 +108,7 @@ app.on("ready", () => {
 					if (err) throw err;
 				});
 
-				/** 気温 **/
+				/** 温度 **/
 				var message = new Buffer('temp?');
 				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 					if (err) throw err;
@@ -109,17 +119,19 @@ app.on("ready", () => {
 				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 					if (err) throw err;
 				});
-
+				
+				
+				/** Telloからのレスポンス取得 **/
 				var resp = [];
-				// Telloからのレスポンス取得
 				client.on('message', (msg, info) => {
+					console.log('succese')
 
 					var telloData = msg.toString();
 					var int = parseInt(telloData)
 					resp.push(int)
 
 					if(resp.length == 6) {
-						/*** 配列の取得 ***/
+						/** 配列の取得 **/
 						var telloSpeed = resp[0]
 						var telloBattery = resp[1]
 						var telloFlytime = resp[2]
@@ -127,7 +139,7 @@ app.on("ready", () => {
 						var telloTemperature = resp[4]
 						var telloTof = resp[5]
 
-						/*** kintoneへアクセス ***/
+						/** kintoneへアクセス **/
 						var entry_body = {
 							'app': 350,
 							'record': {
@@ -173,8 +185,10 @@ app.on("ready", () => {
 				});
 				break;
 
-			
+
+			/**** 上昇 ****/
 			case 'up':
+				console.log('up')
 				dis = (url_params.length >= 3) ? url_params[2] : 0;
 				console.log('up ' + dis);
 				var message = new Buffer('up ' + dis);
@@ -183,7 +197,10 @@ app.on("ready", () => {
 				});
 				break;
 
+
+			/**** 下降 ****/
 			case 'down':
+				console.log('down')
 				dis = (url_params.length >= 3) ? url_params[2] : 0;
 				console.log('down ' + dis);
 				var message = new Buffer('down ' + dis);
@@ -192,7 +209,11 @@ app.on("ready", () => {
 				});
 				break;
 
+
+			/**** 左移動 ****/
 			case 'left':
+				console.log('left')
+
 				dis = (url_params.length >= 3) ? url_params[2] : 0;
 				console.log('left ' + dis);
 				var message = new Buffer('left ' + dis);
@@ -201,7 +222,11 @@ app.on("ready", () => {
 				});
 				break;
 
+
+			/**** 右移動 ****/
 			case 'right':
+				console.log('right')
+
 				dis = (url_params.length >= 3) ? url_params[2] : 0;
 				console.log('right ' + dis);
 				var message = new Buffer('right ' + dis);
@@ -210,7 +235,11 @@ app.on("ready", () => {
 				});
 				break;
 
+
+			/**** 前進 ****/
 			case 'forward':
+				console.log('forward')
+
 				dis = (url_params.length >= 3) ? url_params[2] : 0;
 				console.log('forward ' + dis);
 				var message = new Buffer('forward ' + dis);
@@ -219,7 +248,11 @@ app.on("ready", () => {
 				});
 				break;
 
+
+			/**** 後進 ****/
 			case 'back':
+				console.log('back')
+
 				dis = (url_params.length >= 3) ? url_params[2] : 0;
 				console.log('back ' + dis);
 				var message = new Buffer('back ' + dis);
@@ -228,7 +261,11 @@ app.on("ready", () => {
 				});
 				break;
 
+
+			/**** 右回転 ****/
 			case 'cw':
+				console.log('cw')
+
 				dis = (url_params.length >= 3) ? url_params[2] : 0;
 				console.log('cw ' + dis);
 				var message = new Buffer('cw ' + dis);
@@ -237,16 +274,11 @@ app.on("ready", () => {
 				});
 				break;
 
-			case 'flip':
-				dis = (url_params.length >= 3) ? url_params[2] : 0;
-				console.log('flip' + dis);
-				var message = new Buffer('flip ' + dis);
-				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-					if (err) throw err;
-				});
-				break;
 
+			/**** 左回転 ****/
 			case 'ccw':
+				console.log('ccw')
+
 				dis = (url_params.length >= 3) ? url_params[2] : 0;
 				console.log('ccw ' + dis);
 				var message = new Buffer('ccw ' + dis);
@@ -259,7 +291,24 @@ app.on("ready", () => {
 				});
 				break;
 
+
+			/**** フリップ ****/
+			case 'flip':
+				console.log('flip')
+
+				dis = (url_params.length >= 3) ? url_params[2] : 0;
+				console.log('flip' + dis);
+				var message = new Buffer('flip ' + dis);
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
+
+
+			/**** スピード変更 ****/
 			case 'setspeed':
+				console.log('setspeed')
+
 				dis = (url_params.length >= 3) ? url_params[2] : 0;
 				console.log('setspeed ' + dis);
 				var message = new Buffer('speed ' + dis);
@@ -267,7 +316,6 @@ app.on("ready", () => {
 					if (err) throw err;
 				});
 				break;
-
 		}
 		response.end('Hello Tello.\n');
 
@@ -281,44 +329,17 @@ app.on("ready", () => {
 
 /***** 離陸 *****/
 function TakeoffRequest() {
-	var message = new Buffer('command');
 
+	var message = new Buffer('command');
 	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 		if (err) throw err;
 	});
+
 	var message = new Buffer('takeoff');
 	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 		if (err) throw err;
 
 	});
-
-	/*** kintoneへアクセス ***/
-	var entry_body = {
-		'app': 350,
-		'record': {
-			'takeOff':{
-				'value':'1'
-			}
-		}
-	};
-
-	let params = {
-		url: 'https://ge-creative.cybozu.com/k/v1/record.json',
-		method: 'POST',
-		json: true,
-		headers: {
-			'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-			'Content-Type': 'application/json',
-		},
-		body: entry_body
-	};
-	kintoneRequest(params, function (err, res, body) {
-		if (err) {
-			console.log(err);
-			return;
-		}
-	});
-
 }
 
 
@@ -328,33 +349,6 @@ function LandRequest() {
 
 	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 		if (err) throw err;
-	});
-
-	/*** kintoneへアクセス ***/
-	var entry_body = {
-		'app': 350,
-		'record': {
-			'land':{
-				'value':'1'
-			}
-		}
-	};
-
-	let params = {
-		url: 'https://ge-creative.cybozu.com/k/v1/record.json',
-		method: 'POST',
-		json: true,
-		headers: {
-			'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
-			'Content-Type': 'application/json',
-		},
-		body: entry_body
-	};
-	kintoneRequest(params, function (err, res, body) {
-		if (err) {
-			console.log(err);
-			return;
-		}
 	});
 }
 
