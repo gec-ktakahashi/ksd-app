@@ -113,12 +113,6 @@ app.on("ready", () => {
 				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 					if (err) throw err;
 				});
-
-				/** TOFからの距離 **/
-				var message = new Buffer('tof?');
-				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-					if (err) throw err;
-				});
 				
 				
 				/** Telloからのレスポンス取得 **/
@@ -137,7 +131,6 @@ app.on("ready", () => {
 						var telloFlytime = resp[2]
 						var telloHeight = resp[3]
 						var telloTemperature = resp[4]
-						var telloTof = resp[5]
 
 						/** kintoneへアクセス **/
 						var entry_body = {
@@ -157,9 +150,6 @@ app.on("ready", () => {
 								},
 								'temperature': {
 									"value": telloTemperature
-								},
-								'tof': {
-									"value": telloTof
 								}
 							}
 						};
