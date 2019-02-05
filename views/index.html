@@ -18,35 +18,31 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>kintoneアプリ情報入力</h1>
-            </div>
-            <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="card-header">フォーム</div>
-                        <label for="domainName">ドメイン名
-                            <span class="label label-danger">※必須項目</span>
-                        </label>
-                        <input type="text" class="form-control id="domainName" autocomplete="off" required></input>
+                        <h5 class="card-title">kintoneアプリ情報</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Telloの情報を送信する対象アプリの情報を設定してください</h6>
 
-                        <label for="appId">アプリID
-                            <span class="label label-danger">※必須項目</span>
-                        </label>
-                        <input type="number" class="form-control id="appId" autocomplete="off" required></input>
-
-                        <label for="apiToken">APIトークン
-                            <span class="label label-danger">※必須項目</span>
-                        </label> 
-                        <input type="text" class="form-control id="apiToken" autocomplete="off" required></input>
-                        <br>
-
-                        <!-- 検索ボタン -->
-                        <div class="col-md-12 clearfix">
-                            <!-- 検索ボタン -->
-                            <div class="float-right">
-                                <input type="button" id="entryButton" class="btn btn-outline-primary" name="button_type" value="登録" onclick="entry();"></input>
+                        <form action="http://127.0.0.1:8001/setting" method="GET">
+                            <!-- ドメインネーム -->
+                            <div class="form-group">
+                                <label>ドメインネーム</label>
+                                <input type="text" class="form-control" placeholder="https://(この部分).cybozu.com/~" name="kintoneSubDomainName">
                             </div>
-                        </div>
+                            <!-- アプリID -->
+                            <div class="form-group">
+                                <label>アプリID</label>
+                                <input type="text" class="form-control" placeholder="対象アプリのIDを入力してください" name="kintoneAppId">
+                            </div>
+                            <!-- APIトークン -->
+                            <div class="form-group">
+                                <label>APIトークン</label>
+                                <input type="text" class="form-control" placeholder="上記アプリのAPIトークンを入力してください" name="kintoneAPIToken">
+                            </div>
+
+                            <!-- 送信ボタン -->
+                            <button type="submit" class="btn btn-default">保 存</button>
+                        </form>
                     </div>
                 </div>
             </div>
