@@ -8,7 +8,7 @@ let mainWindow = null;
 
 // http
 const http = require('http');
-const kintoneRequest = require('request');
+// const kintoneRequest = require('request');
 const fs = require('fs');
 const url = require('url');
 
