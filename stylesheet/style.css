@@ -8,3 +8,7 @@ label.required {
     color:#f00;
     padding-left: 10px;
 }
+
+div#entryMessage {
+    color:#0006ff;
+}
