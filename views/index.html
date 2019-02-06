@@ -11,6 +11,8 @@
 
     <!-- BootStrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <!-- css -->
+    <link rel="stylesheet" href="../stylesheet/style.css">
 
 </head>
 
@@ -25,23 +27,29 @@
 
                         <form action="http://127.0.0.1:8001/setting" method="GET">
                             <!-- ドメインネーム -->
-                            <div class="form-group">
-                                <label>ドメインネーム</label>
-                                <input type="text" class="form-control" placeholder="https://(この部分).cybozu.com/~" name="kintoneSubDomainName">
+                            <div class="form-group" id="domainName">
+                                <span><label>ドメインネーム</label><label class="required">※必須項目</label></span>
+                                <input type="text" class="form-control" placeholder="https://(この部分).cybozu.com/~" name="kintoneSubDomainName" required>
                             </div>
                             <!-- アプリID -->
                             <div class="form-group">
-                                <label>アプリID</label>
-                                <input type="text" class="form-control" placeholder="対象アプリのIDを入力してください" name="kintoneAppId">
+                                <span><label>アプリID</label><label class="required">※必須項目</label></span>
+                                <input type="text" class="form-control" placeholder="対象アプリのIDを入力してください" name="kintoneAppId" required>
                             </div>
                             <!-- APIトークン -->
                             <div class="form-group">
-                                <label>APIトークン</label>
-                                <input type="text" class="form-control" placeholder="上記アプリのAPIトークンを入力してください" name="kintoneAPIToken">
+                                <span><label>APIトークン</label><label class="required">※必須項目</label></span>
+                                <input type="text" class="form-control" placeholder="上記アプリのAPIトークンを入力してください" name="kintoneAPIToken" required>
+                            </div>
+                            <!-- 登録後アラート -->
+                            <div id="entryMessage">
+                            
                             </div>
 
                             <!-- 送信ボタン -->
-                            <button type="submit" class="btn btn-default">保 存</button>
+                            <span class="form-group float-right">
+                                <button type="submit" class="btn btn-outline-success" onclick="complet();">保 存</button>
+                            <span>
                         </form>
                     </div>
                 </div>
@@ -49,5 +57,24 @@
         </div>
     </div>
 </body>
+
+<script>
+        function complet() {
+            /**** 入力値の取得 ****/
+            // ドメイン名
+            var domain = document.getElementsByName("kintoneSubDomainName")[0].value
+            // アプリID
+            var appId = document.getElementsByName("kintoneAppId")[0].value
+            // APIトークン
+            var apiToken = document.getElementsByName("kintoneAPIToken")[0].value
+    
+            if (domain && appId && apiToken) {
+                console.log("success")
+                // 保存ボタン隣にアラートメッセージを出す
+                var elem = document.getElementById("entryMessage");
+                elem.innerHTML = "設定完了しました。 scratchからドローン操作を行ってください"
+            }
+        }
+    </script>
 
 </html>

@@ -1,5 +1,6 @@
 # Only this project.
 dist/
+sample-win32-x64/
 
 # Logs
 logs

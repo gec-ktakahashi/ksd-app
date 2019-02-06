@@ -4,7 +4,7 @@
   "description": "kintone hive デモ用 Scratchドローン連携 アプリ",
   "scripts": {
     "dev": "./node_modules/.bin/electron .",
-    "build": "./node_modules/.bin/electron-packager . sample --platform=win32 --arch=x64 --out=./dist"
+    "build": "./node_modules/.bin/electron-packager . sample --platform=win32 --arch=x64  --icon=./build/icons/icon.ico"
   },
   "main": "app.js",
   "author": "ktakahashi",

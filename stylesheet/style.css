@@ -1,0 +1,10 @@
+
+/* 入力フォームの位置調整 */
+.card {
+    margin-top: 30px;
+}
+
+label.required {
+    color:#f00;
+    padding-left: 10px;
+}

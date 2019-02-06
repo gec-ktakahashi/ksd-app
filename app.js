@@ -43,7 +43,7 @@ app.on("ready", () => {
 	mainWindow.loadURL(`file://${__dirname}/views/index.html`);
 
 	// 開発者ツールを表示する
-	//mainWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 
 	// イベント：ウィンドウクローズ時
 	mainWindow.on("closed", () => {
@@ -61,14 +61,14 @@ app.on("ready", () => {
 
 		// URLパラメータの第一引数をもとに処理を振り分ける
 		var command = url_params[1];
-
+		
 		// 設定コマンドの場合、各種kintone設定値を埋め込む
 		if (command.startsWith('setting?')) {
 			let query = command.split('?')[1];
 			let params = query.split('&');
 
 			kintoneSubDomainName = params[0].split('=')[1];
-			kintoneAppId = params[1].split('=')[1];
+			kintoneAppId = parseInt(params[1].split('=')[1]);
 			kintoneAPIToken = params[2].split('=')[1];
 
 			console.log(kintoneSubDomainName)
@@ -81,6 +81,7 @@ app.on("ready", () => {
 		switch (command) {
 			// Tello：コマンドモード
 			case 'command':
+				console.log('command')
 				var message = new Buffer('command');
 				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 					if (err) throw err;
@@ -135,7 +136,7 @@ app.on("ready", () => {
 						var int = parseInt(telloData)
 						resp.push(int)
 
-						if (resp.length == 6) {
+						if (resp.length == 5) {
 							/** 配列の取得 **/
 							var telloSpeed = resp[0]
 							var telloBattery = resp[1]
@@ -145,7 +146,7 @@ app.on("ready", () => {
 
 							/** kintoneへアクセス **/
 							var entry_body = {
-								'app': 350,
+								'app': kintoneAppId,
 								'record': {
 									'speed': {
 										"value": telloSpeed
@@ -166,11 +167,11 @@ app.on("ready", () => {
 							};
 
 							let params = {
-								url: 'https://ge-creative.cybozu.com/k/v1/record.json',
+								url: `https://${kintoneSubDomainName}.cybozu.com/k/v1/record.json`,
 								method: 'POST',
 								json: true,
 								headers: {
-									'X-Cybozu-API-Token': 'vCLeMxYChZoBHjai5eHyLPvtbTmjWcHGrXAH7KEm',
+									'X-Cybozu-API-Token': `${kintoneAPIToken}`,
 									'Content-Type': 'application/json',
 								},
 								body: entry_body
