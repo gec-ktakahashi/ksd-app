@@ -43,7 +43,7 @@ app.on("ready", () => {
 	mainWindow.loadURL(`file://${__dirname}/views/index.html`);
 
 	// 開発者ツールを表示する
-	mainWindow.webContents.openDevTools();
+	// mainWindow.webContents.openDevTools();
 
 	// イベント：ウィンドウクローズ時
 	mainWindow.on("closed", () => {
