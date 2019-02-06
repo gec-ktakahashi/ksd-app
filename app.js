@@ -5,7 +5,6 @@
 const electron = require("electron");
 const http = require('http');
 const kintoneRequest = require('request');
-const url = require('url');
 const dgram = require('dgram');
 const client = dgram.createSocket('udp4');
 
@@ -65,8 +64,6 @@ app.on("ready", () => {
 
 		// 設定コマンドの場合、各種kintone設定値を埋め込む
 		if (command.startsWith('setting?')) {
-			console.log('setting')
-
 			let query = command.split('?')[1];
 			let params = query.split('&');
 
@@ -81,29 +78,30 @@ app.on("ready", () => {
 			return;
 		}
 
-		// kintone設定値が全て入力されている場合、各種コマンド操作を実行する
-		if (kintoneSubDomainName && kintoneAppId && kintoneAPIToken) {
-			switch (command) {
-				// Tello：コマンドモード
-				case 'command':
-					var message = new Buffer('command');
-					client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-						if (err) throw err;
-					});
-					break;
+		switch (command) {
+			// Tello：コマンドモード
+			case 'command':
+				var message = new Buffer('command');
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
 
-					// Tello：離陸
-				case 'takeoff':
-					TakeoffRequest();
-					break;
+				// Tello：離陸
+			case 'takeoff':
+				TakeoffRequest();
+				break;
 
-					// Tello：着陸
-				case 'land':
-					LandRequest();
-					break;
+				// Tello：着陸
+			case 'land':
+				LandRequest();
+				break;
 
-					// Tello：kintoneステータス送信
-				case 'kintone':
+				// Tello：kintoneステータス送信
+			case 'kintone':
+				// kintone設定値が全て入力されている場合、各種コマンド操作を実行する
+				if (kintoneSubDomainName && kintoneAppId && kintoneAPIToken) {
+
 					/** 速度 **/
 					var message_speed = new Buffer('speed?');
 					client.send(message_speed, 0, message_speed.length, PORT, HOST, function (err, bytes) {
@@ -186,103 +184,103 @@ app.on("ready", () => {
 							});
 						}
 					});
-					break;
+				}
+				break;
 
-					// Tello：上昇
-				case 'up':
-					dis = (url_params.length >= 3) ? url_params[2] : 0;
-					var message = new Buffer('up ' + dis);
-					client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-						if (err) throw err;
-					});
-					break;
+				// Tello：上昇
+			case 'up':
+				dis = (url_params.length >= 3) ? url_params[2] : 0;
+				var message = new Buffer('up ' + dis);
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
 
-					// Tello：下降
-				case 'down':
-					console.log('down')
-					dis = (url_params.length >= 3) ? url_params[2] : 0;
-					var message = new Buffer('down ' + dis);
-					client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-						if (err) throw err;
-					});
-					break;
+				// Tello：下降
+			case 'down':
+				console.log('down')
+				dis = (url_params.length >= 3) ? url_params[2] : 0;
+				var message = new Buffer('down ' + dis);
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
 
-					// Tello：左移動
-				case 'left':
-					dis = (url_params.length >= 3) ? url_params[2] : 0;
-					var message = new Buffer('left ' + dis);
-					client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-						if (err) throw err;
-					});
-					break;
+				// Tello：左移動
+			case 'left':
+				dis = (url_params.length >= 3) ? url_params[2] : 0;
+				var message = new Buffer('left ' + dis);
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
 
-					// Tello：右移動
-				case 'right':
-					dis = (url_params.length >= 3) ? url_params[2] : 0;
-					var message = new Buffer('right ' + dis);
-					client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-						if (err) throw err;
-					});
-					break;
+				// Tello：右移動
+			case 'right':
+				dis = (url_params.length >= 3) ? url_params[2] : 0;
+				var message = new Buffer('right ' + dis);
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
 
-					// Tello：前進
-				case 'forward':
-					dis = (url_params.length >= 3) ? url_params[2] : 0;
-					var message = new Buffer('forward ' + dis);
-					client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-						if (err) throw err;
-					});
-					break;
+				// Tello：前進
+			case 'forward':
+				dis = (url_params.length >= 3) ? url_params[2] : 0;
+				var message = new Buffer('forward ' + dis);
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
 
-					// Tello：後進
-				case 'back':
-					dis = (url_params.length >= 3) ? url_params[2] : 0;
-					var message = new Buffer('back ' + dis);
-					client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-						if (err) throw err;
-					});
-					break;
+				// Tello：後進
+			case 'back':
+				dis = (url_params.length >= 3) ? url_params[2] : 0;
+				var message = new Buffer('back ' + dis);
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
 
-					// Tello：右回転
-				case 'cw':
-					dis = (url_params.length >= 3) ? url_params[2] : 0;
-					var message = new Buffer('cw ' + dis);
-					client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-						if (err) throw err;
-					});
-					break;
+				// Tello：右回転
+			case 'cw':
+				dis = (url_params.length >= 3) ? url_params[2] : 0;
+				var message = new Buffer('cw ' + dis);
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
 
-					// Tello：左回転
-				case 'ccw':
-					dis = (url_params.length >= 3) ? url_params[2] : 0;
-					var message = new Buffer('ccw ' + dis);
-					client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-						if (err) throw err;
-					});
-					client.on('message', function (msg, info) {
-						console.log('Data received from server : ' + msg.toString());
-						console.log('Received %d bytes from %s:%d\n', msg.length, info.address, info.port);
-					});
-					break;
+				// Tello：左回転
+			case 'ccw':
+				dis = (url_params.length >= 3) ? url_params[2] : 0;
+				var message = new Buffer('ccw ' + dis);
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				client.on('message', function (msg, info) {
+					console.log('Data received from server : ' + msg.toString());
+					console.log('Received %d bytes from %s:%d\n', msg.length, info.address, info.port);
+				});
+				break;
 
-					// Tello：フリップ
-				case 'flip':
-					dis = (url_params.length >= 3) ? url_params[2] : 0;
-					var message = new Buffer('flip ' + dis);
-					client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-						if (err) throw err;
-					});
-					break;
+				// Tello：フリップ
+			case 'flip':
+				dis = (url_params.length >= 3) ? url_params[2] : 0;
+				var message = new Buffer('flip ' + dis);
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
 
-					// Tello：スピード変更
-				case 'setspeed':
-					dis = (url_params.length >= 3) ? url_params[2] : 0;
-					var message = new Buffer('speed ' + dis);
-					client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-						if (err) throw err;
-					});
-					break;
-			}
+				// Tello：スピード変更
+			case 'setspeed':
+				dis = (url_params.length >= 3) ? url_params[2] : 0;
+				var message = new Buffer('speed ' + dis);
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
 		}
 
 		response.end('Hello Tello.\n');
