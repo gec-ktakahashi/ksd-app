@@ -4,7 +4,7 @@
 
 const electron = require("electron");
 const http = require('http');
-const kintoneRequest = require('request');
+const request_module = require('request');
 const dgram = require('dgram');
 const client = dgram.createSocket('udp4');
 
@@ -176,7 +176,7 @@ app.on("ready", () => {
 								},
 								body: entry_body
 							};
-							kintoneRequest(params, function (err, res, body) {
+							request_module(params, function (err, res, body) {
 								if (err) {
 									console.log(err);
 									return;
