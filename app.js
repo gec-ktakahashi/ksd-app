@@ -61,7 +61,7 @@ app.on("ready", () => {
 
 		// URLパラメータの第一引数をもとに処理を振り分ける
 		var command = url_params[1];
-		
+
 		// 設定コマンドの場合、各種kintone設定値を埋め込む
 		if (command.startsWith('setting?')) {
 			let query = command.split('?')[1];

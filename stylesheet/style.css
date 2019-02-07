@@ -1,17 +1,23 @@
-
 /*** フォーム ***/
 /* 位置調整 */
 .card {
     margin-top: 40px;
 }
+
+.card-body {
+    background: whitesmoke;
+}
+
 /* 文字色 */
 label.required {
-    color:#f00;
+    color: #ef5f5f;
     padding-left: 10px;
+    font-size: 0.9rem;
 }
+
 /* 保存ボタン */
 div#entryMessage {
-    color:#0006ff;
+    color: #0006ff;
 }
 
 /**** 画像 ****/
@@ -23,14 +29,16 @@ div#icon {
 img#gec_icon {
     width: 30%;
 }
+
 span.gecLogo {
-    padding-left: 15px; 
+    padding-left: 15px;
 }
 
 /* kintoneロゴサイズ */
 img#kintone_icon {
     width: 30%;
 }
+
 span.kintoneLogo {
     padding-left: 10px;
 }
@@ -44,7 +52,7 @@ img#tello_icon {
 img.close_logo {
     width: 5%;
 }
+
 span.closeLogo {
     padding-left: 18px;
 }
-
