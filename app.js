@@ -71,23 +71,13 @@ app.on("ready", () => {
 			kintoneAppId = parseInt(params[1].split('=')[1]);
 			kintoneAPIToken = params[2].split('=')[1];
 
-			console.log(kintoneSubDomainName)
-			console.log(kintoneAppId)
-			console.log(kintoneAPIToken)
-
+			// console.log(kintoneSubDomainName)
+			// console.log(kintoneAppId)
+			// console.log(kintoneAPIToken)
 			return;
 		}
 
 		switch (command) {
-			// Tello：コマンドモード
-			case 'command':
-				console.log('command')
-				var message = new Buffer('command');
-				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
-					if (err) throw err;
-				});
-				break;
-
 				// Tello：離陸
 			case 'takeoff':
 				TakeoffRequest();
@@ -302,7 +292,6 @@ function TakeoffRequest() {
 	var message = new Buffer('takeoff');
 	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 		if (err) throw err;
-
 	});
 }
 

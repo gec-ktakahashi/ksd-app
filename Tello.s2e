@@ -2,7 +2,6 @@
  	"extensionPort": 8001,
  	"blockSpecs": [
 		[" ", "kintoneデータ登録", "kintone"],
-		[" ", "コマンド", "command"],
 		[" ", "離陸", "takeoff"],
 		[" ", "着陸", "land"],
 		[" ", "上昇 %n", "up", 20],
