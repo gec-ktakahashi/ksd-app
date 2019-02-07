@@ -1,15 +1,12 @@
-# kintone x SCRATCH x ドローン 連携アプリ
+# ksd-app
 
-kintone-hive 講演 デモ用
+【kintone hive 2019】GEC 講演用 kintone x scratch x drone コラボレーション アプリ
 
 ## Description
 
 - [kintone](https://kintone.cybozu.co.jp/)
 - [SCRATCH v2.0](https://scratch.mit.edu/download/scratch2)
-- ドローン（未定）
-
-SCRATCH でドローンを操作し、ドローンの出力をこのアプリで受け取り、kintone に送信します。  
-ドローンはローカルホストにしか送信出来ないため、経由ホストとして Electron でローカルホストサーバを立てて、kintone に値を送信する形式となります。
+- [ドローン Tello](https://www.ryzerobotics.com/jp/tello)
 
 ## Requirement
 
@@ -19,14 +16,13 @@ SCRATCH でドローンを操作し、ドローンの出力をこのアプリで
 ## Develop
 
 ```bash
-$ npm i -g yarn
-$ cd scratch-drone-app
-$ yarn install
-$ yarn dev
+$ cd sdk-app
+$ npm install
+$ npm dev
 ```
 
 ## Production
 
 ```bash
-$ yarn build
+$ npm build
 ```

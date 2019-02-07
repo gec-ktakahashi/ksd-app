@@ -1,10 +1,10 @@
 {
-  "name": "scratch-drone",
+  "name": "ksd-app",
   "version": "1.0.0",
-  "description": "kintone hive デモ用 Scratchドローン連携 アプリ",
+  "description": "【kintone hive 2019】GEC講演用  kintone x scratch x drone コラボレーション アプリ",
   "scripts": {
     "dev": "./node_modules/.bin/electron .",
-    "build": "./node_modules/.bin/electron-packager . sample --platform=win32 --arch=x64  --icon=./build/icons/icon.ico"
+    "build": "./node_modules/.bin/electron-packager . sample --platform=win32 --arch=x64  --icon=./assets/icons/icon.ico"
   },
   "main": "app.js",
   "author": "ktakahashi",
@@ -15,7 +15,6 @@
     "electron-prebuilt": "^1.4.13"
   },
   "dependencies": {
-    "express": "^4.16.4",
     "request": "^2.88.0"
   }
 }
