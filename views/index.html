@@ -28,28 +28,25 @@
                             <!-- ドメインネーム -->
                             <div class="form-group" id="domainName">
                                 <span><label>ドメインネーム</label><label class="required">※必須項目</label></span>
-                                <input type="text" class="form-control" placeholder="https://(この部分).cybozu.com/~" name="kintoneSubDomainName"
-                                    required>
+                                <input type="text" class="form-control" placeholder="https://(この部分).cybozu.com/~" name="kintoneSubDomainName"required>
                             </div>
                             <!-- アプリID -->
                             <div class="form-group">
                                 <span><label>アプリID</label><label class="required">※必須項目</label></span>
-                                <input type="text" class="form-control" placeholder="対象アプリのIDを入力してください" name="kintoneAppId"
-                                    required>
+                                <input type="text" class="form-control" placeholder="対象アプリのIDを入力してください" name="kintoneAppId"required>
                             </div>
                             <!-- APIトークン -->
                             <div class="form-group">
                                 <span><label>APIトークン</label><label class="required">※必須項目</label></span>
-                                <input type="text" class="form-control" placeholder="上記アプリのAPIトークンを入力してください" name="kintoneAPIToken"
-                                    required>
+                                <input type="text" class="form-control" placeholder="上記アプリのAPIトークンを入力してください" name="kintoneAPIToken"required>
                             </div>
-                            <!-- 登録後アラート -->
-                            <div id="entryMessage"></div>
-
-                            <!-- 送信ボタン -->
-                            <span class="form-group float-right">
-                                <button type="submit" class="btn btn-outline-primary" onclick="complet();">保 存</button>
-                                <span>
+                            <div>
+                                <!-- 登録後アラート -->
+                                <p class="alert alert-success col-md-10" role="alert" id="entryMessage">
+                                </p>
+                                <!-- 送信ボタン -->
+                                <button type="submit" class="float-right btn btn-outline-success" onclick="complet();">保 存</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -67,8 +64,8 @@
                         <img src="../build/img/kintone_logo.png" id="kintone_icon">
                     </span>
                     <!-- ✕ロゴ -->
-                    <span class="close_mark">
-                        <img src="../build/img/close_logo.png" class="close_logo">
+                    <span class="closeMark">
+                        <img src="../build/img/close_logo.png" class="close_mark">
                     </span>
                     <!-- gecロゴ -->
                     <span class="text-right gecLogo">

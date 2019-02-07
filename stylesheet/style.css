@@ -3,7 +3,6 @@
 .card {
     margin-top: 40px;
 }
-
 .card-body {
     background: whitesmoke;
 }
@@ -20,39 +19,49 @@ div#entryMessage {
     color: #0006ff;
 }
 
+/*** 設定完了アラート ***/
+.alert-success {
+    display: inline-block;
+}
+
 /**** 画像 ****/
+/* 全体 */
 div#icon {
     padding-top: 15px;
 }
-
-/* gecロゴサイズ */
-img#gec_icon {
-    width: 30%;
-}
-
-span.gecLogo {
-    padding-left: 15px;
-}
-
-/* kintoneロゴサイズ */
-img#kintone_icon {
-    width: 30%;
-}
-
-span.kintoneLogo {
-    padding-left: 10px;
-}
-
-/* telloロゴサイズ */
+/* telloロゴ */
 img#tello_icon {
     width: 20%;
 }
-
-/* クロスロゴサイズ */
+/* クロスロゴ1 */
+span.closeLogo {
+    padding-left: 20px;
+}
 img.close_logo {
     width: 5%;
 }
 
-span.closeLogo {
-    padding-left: 18px;
+/* kintoneロゴ */
+span.kintoneLogo {
+    padding-left: 10px;
+}
+
+img#kintone_icon {
+    width: 30%;
+}
+
+/* クロスロゴ2 */
+span.closeMark {
+    padding-left: 10px;
+}
+img.close_mark {
+    width: 5%;
+}
+
+/* gecロゴ */
+span.gecLogo {
+    padding-left: 10px;
+}
+img#gec_icon {
+    width: 30%;
 }
