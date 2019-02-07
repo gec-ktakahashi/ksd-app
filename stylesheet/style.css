@@ -24,7 +24,7 @@ img#gec_icon {
     width: 30%;
 }
 span.gecLogo {
-    padding-right: 15px; 
+    padding-left: 15px; 
 }
 
 /* kintoneロゴサイズ */
@@ -45,6 +45,6 @@ img.close_logo {
     width: 5%;
 }
 span.closeLogo {
-    padding-left: 15px;
+    padding-left: 18px;
 }
 
