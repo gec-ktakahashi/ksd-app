@@ -15,11 +15,39 @@ div#entryMessage {
 }
 
 /**** 画像 ****/
-/* サイズ */
-img#gecreativeIcon {
-    width: 60%;
-}
-/* 位置 */
 div#icon {
     padding-top: 15px;
 }
+
+/* gecロゴサイズ */
+img#gec_icon {
+    width: 30%;
+}
+span.gecLogo {
+    padding-right: 15px; 
+}
+
+/* kintoneロゴサイズ */
+img#kintone_icon {
+    width: 30%;
+}
+span.kintoneLogo {
+    padding-left: 10px;
+}
+
+/* telloロゴサイズ */
+img#tello_icon {
+    width: 20%;
+}
+
+span.gecLogo {
+    padding-left: 15px;
+}
+/* クロスロゴサイズ */
+img.close_logo {
+    width: 5%;
+}
+span.closeLogo {
+    padding-left: 15px;
+}
+

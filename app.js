@@ -34,8 +34,8 @@ let kintoneAPIToken = "";
 app.on("ready", () => {
 	// ウィンドウサイズを1280*720（フレームサイズを含まない）に設定する
 	mainWindow = new BrowserWindow({
-		width: 600,
-		height: 500,
+		width: 800,
+		height: 650,
 		// useContentSize: true
 	});
 
@@ -43,7 +43,7 @@ app.on("ready", () => {
 	mainWindow.loadURL(`file://${__dirname}/views/index.html`);
 
 	// 開発者ツールを表示する
-	// mainWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 
 	// イベント：ウィンドウクローズ時
 	mainWindow.on("closed", () => {
