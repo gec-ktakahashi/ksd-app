@@ -36,7 +36,6 @@ app.on("ready", () => {
 	mainWindow = new BrowserWindow({
 		width: 800,
 		height: 650,
-		// useContentSize: true
 	});
 
 	// 使用するhtmlファイルを指定する
@@ -78,6 +77,17 @@ app.on("ready", () => {
 		}
 
 		switch (command) {
+
+				// Tello：コマンドモード
+			case 'command':
+				console.log('command')
+				var message = new Buffer('command');
+				client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
+					if (err) throw err;
+				});
+				break;
+
+
 				// Tello：離陸
 			case 'takeoff':
 				TakeoffRequest();
