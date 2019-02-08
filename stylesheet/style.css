@@ -51,8 +51,8 @@ img#kintone_icon {
 }
 
 /* クロスロゴ2 */
-span.closeMark {
-    padding-left: 10px;
+span.close_mark {
+    padding-left: 5px;
 }
 img.close_mark {
     width: 5%;
@@ -60,8 +60,9 @@ img.close_mark {
 
 /* gecロゴ */
 span.gecLogo {
-    padding-left: 10px;
+    padding-left: 15px;
 }
 img#gec_icon {
     width: 30%;
 }
+
