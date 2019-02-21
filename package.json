@@ -4,7 +4,7 @@
   "description": "【kintone hive 2019】GEC講演用  kintone x scratch x drone コラボレーション アプリ",
   "scripts": {
     "dev": "./node_modules/.bin/electron .",
-    "build": "./node_modules/.bin/electron-packager . sample --platform=win32 --arch=x64  --icon=./assets/icons/icon.ico"
+    "build": "./node_modules/.bin/electron-packager . ksd-app --platform=win32 --arch=x64  --icon=./assets/icons/icon.ico"
   },
   "main": "app.js",
   "author": "ktakahashi",
