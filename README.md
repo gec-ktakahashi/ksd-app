@@ -1,6 +1,6 @@
 # ksd-app
 
-【kintone hive 2019】GEC 講演用 kintone x scratch x drone コラボレーション アプリ
+【kintone hive 2019】GEC 講演用 kintone x scratch x drone アプリ
 
 ## Description
 
