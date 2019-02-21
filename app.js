@@ -36,7 +36,6 @@ app.on("ready", () => {
 	mainWindow = new BrowserWindow({
 		width: 800,
 		height: 650,
-		// useContentSize: true
 	});
 
 	// 使用するhtmlファイルを指定する
@@ -71,15 +70,15 @@ app.on("ready", () => {
 			kintoneAppId = parseInt(params[1].split('=')[1]);
 			kintoneAPIToken = params[2].split('=')[1];
 
-			console.log(kintoneSubDomainName)
-			console.log(kintoneAppId)
-			console.log(kintoneAPIToken)
-
+			// console.log(kintoneSubDomainName)
+			// console.log(kintoneAppId)
+			// console.log(kintoneAPIToken)
 			return;
 		}
 
 		switch (command) {
-			// Tello：コマンドモード
+
+				// Tello：コマンドモード
 			case 'command':
 				console.log('command')
 				var message = new Buffer('command');
@@ -87,6 +86,7 @@ app.on("ready", () => {
 					if (err) throw err;
 				});
 				break;
+
 
 				// Tello：離陸
 			case 'takeoff':
@@ -100,6 +100,7 @@ app.on("ready", () => {
 
 				// Tello：kintoneステータス送信
 			case 'kintone':
+				console.log('kintone')
 				// kintone設定値が全て入力されている場合、各種コマンド操作を実行する
 				if (kintoneSubDomainName && kintoneAppId && kintoneAPIToken) {
 
@@ -302,7 +303,6 @@ function TakeoffRequest() {
 	var message = new Buffer('takeoff');
 	client.send(message, 0, message.length, PORT, HOST, function (err, bytes) {
 		if (err) throw err;
-
 	});
 }
 
