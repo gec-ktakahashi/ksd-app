@@ -69,16 +69,12 @@ app.on("ready", () => {
 			kintoneSubDomainName = params[0].split('=')[1];
 			kintoneAppId = parseInt(params[1].split('=')[1]);
 			kintoneAPIToken = params[2].split('=')[1];
-
-			// console.log(kintoneSubDomainName)
-			// console.log(kintoneAppId)
-			// console.log(kintoneAPIToken)
 			return;
 		}
 
 		switch (command) {
 
-				// Tello：コマンドモード
+			// Tello：コマンドモード
 			case 'command':
 				console.log('command')
 				var message = new Buffer('command');
