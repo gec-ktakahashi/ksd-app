@@ -100,6 +100,7 @@ app.on("ready", () => {
 
 				// Tello：kintoneステータス送信
 			case 'kintone':
+				console.log('kintone')
 				// kintone設定値が全て入力されている場合、各種コマンド操作を実行する
 				if (kintoneSubDomainName && kintoneAppId && kintoneAPIToken) {
 
